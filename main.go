@@ -9,7 +9,7 @@ import (
 	"github.com/comp530/lib"
 )
 
-func assertBool(funcName string, res bool, expected bool) {
+func assertBool(funcName string, res, expected bool) {
 
 	if res != expected {
 		log.Fatalf("%s resulted in %t, expected %t\n", funcName, res, expected)
@@ -17,10 +17,18 @@ func assertBool(funcName string, res bool, expected bool) {
 
 }
 
-func assertEqFactors(funcName string, res lib.Factors, expected lib.Factors) {
+func assertEqInt64(funcName string, res, expected int64) {
+
+	if res != expected {
+		log.Fatalf("%s resulted in %d, expected %d\n", funcName, res, expected)
+	}
+
+}
+
+func assertEqFactors(funcName string, res, expected lib.Factors) {
 
 	if !reflect.DeepEqual(res, expected) {
-		log.Fatalf("%s resulted in %t, expected %t\n", funcName, res, expected)
+		log.Fatalf("%s resulted in %v, expected %v\n", funcName, res, expected)
 	}
 
 }
@@ -68,6 +76,29 @@ func main() {
 	assertEqFactors("Factor",
 		lib.Factor(9193830667), lib.Factors{7, 157, 8365633})
 	// known 10 digit prime number
-	assertEqFactors("Factor", lib.Factor(9576890767), lib.Factors{9576890767})
+	assertEqFactors("Factor", lib.Factor(9576890767),
+		lib.Factors{9576890767})
+
+	// Q4 Tests
+	assertEqInt64("Euclid",
+		lib.CalcEuclid(499017086208, 676126714752),
+		93312)
+
+	assertEqInt64("Euclid",
+		lib.CalcEuclid(5988737349, 578354589),
+		9)
+
+	// Q5 Tests
+	assertEqInt64("Mod Mult Inverse",
+		lib.CalcModInvByEuclid(15, 26),
+		7)
+
+	assertEqInt64("Mod Mult Inverse",
+		lib.CalcModInvByEuclid(15, 26),
+		7)
+
+	assertEqInt64("Mod Mult Inverse",
+		lib.CalcModInvByEuclid(342952340, 4230493243),
+		583739113)
 
 }
