@@ -4,23 +4,25 @@ import (
 	"math"
 )
 
-// IsPrimeTrialByError answers
-// Question 1
+// Integer is an alias for signed int64
+type Integer int64
+
+// IsPrimeTrialByError answers question 1
 // Loop through all in range 3..n-1 and check mod == 0
-func IsPrimeTrialByError(posIntegerN uint64) bool {
+func IsPrimeTrialByError(integerN Integer) bool {
 
 	// candidate prime integers are greater than 1
-	if posIntegerN <= 1 {
+	if integerN <= 1 {
 		return false
 	}
 
-	if posIntegerN == 2 {
+	if integerN == 2 {
 		return true
 	}
 
-	var u uint64
-	for u = 3; u < posIntegerN; u++ {
-		if posIntegerN%u == 0 {
+	var u Integer
+	for u = 3; u < integerN; u++ {
+		if integerN%u == 0 {
 			// found divider other 1,2 or self
 			return false
 		}
@@ -29,36 +31,35 @@ func IsPrimeTrialByError(posIntegerN uint64) bool {
 	return true
 }
 
-// IsPrimeOptimized answers
-// Question 2
+// IsPrimeOptimized answers question 2
 // Check mod 2 once to eliminate even iterations as they are multiples of 2.
 // loop up to √n testing odd numbers as n = a * b requires that at least one of a, b is ≤ √n
 // (if they divide the number we found an odd factor and the number is composite)
-func IsPrimeOptimized(posIntegerN uint64) bool {
+func IsPrimeOptimized(integerN Integer) bool {
 
 	// candidate prime integers are greater than 1
-	if posIntegerN <= 1 {
+	if integerN <= 1 {
 		return false
 	}
 
-	if posIntegerN == 2 {
+	if integerN == 2 {
 		return true
 	}
 
-	if posIntegerN%2 == 0 {
+	if integerN%2 == 0 {
 		return false
 	}
 
 	// find square root of input
-	sqrt := uint64(
+	sqrt := Integer(
 		math.Floor(
 			math.Sqrt(
 				float64(
-					posIntegerN))))
+					integerN))))
 
-	var u uint64
-	for u = 3; u <= sqrt; u += 2 {
-		if posIntegerN%u == 0 {
+	var i Integer
+	for i = 3; i <= sqrt; i += 2 {
+		if integerN%i == 0 {
 			return false
 		}
 	}
@@ -67,21 +68,21 @@ func IsPrimeOptimized(posIntegerN uint64) bool {
 }
 
 // Factors is an alias for an unsigned slice
-type Factors []uint64
+type Factors []Integer
 
-// Factor answers q3
+// Factor answers question 3
 // By employing optimizations of q2 answer: IsPrimeOptimized
 // Reduce by 2 factors
 // Factor up to square root by testing candidate even factors (if they do they are prime)
-func Factor(posIntegerN uint64) Factors {
+func Factor(integerN Integer) Factors {
 	// 4 is initial capacity, it can grow dynamically
 	factors := make(Factors, 0, 4)
 
-	toPrimeTarget := posIntegerN
+	toPrimeTarget := integerN
 
 	// function helper that reduces toPrimeTarget
 	// by factorization and collects prime factors
-	reduceByPrimeFactor := func(factor uint64) {
+	reduceByPrimeFactor := func(factor Integer) {
 		for ; toPrimeTarget%factor == 0; toPrimeTarget /= factor {
 			factors = append(factors, factor)
 		}
@@ -91,13 +92,13 @@ func Factor(posIntegerN uint64) Factors {
 	reduceByPrimeFactor(2)
 
 	// find square root of remaining composite number
-	sqrt := uint64(
+	sqrt := Integer(
 		math.Floor(
 			math.Sqrt(
 				float64(
-					posIntegerN))))
+					integerN))))
 
-	var u uint64
+	var u Integer
 	for u = 3; u <= sqrt && toPrimeTarget > 1; u += 2 {
 		reduceByPrimeFactor(u)
 	}
@@ -110,13 +111,13 @@ func Factor(posIntegerN uint64) Factors {
 	return factors
 }
 
-// CalcEuclid answers Q4
+// CalcEuclid answers question 4
 // of computing GCD(A,B) by employing the Euclid's algorithm.
 // Euclid's algorithm performs successive a,b substitutions such a <- b, b <- a divModulo b
 // till we reduce remainder to 0.
 // The algorithm applies substitutions because GCD(a,b) is equivalent as GCD(b, remainder of a/b)
 // because a = b + remainder a/b
-func CalcEuclid(integerA, integerB int64) int64 {
+func CalcEuclid(integerA, integerB Integer) Integer {
 
 	for integerB != 0 {
 		integerA, integerB =
@@ -128,11 +129,11 @@ func CalcEuclid(integerA, integerB int64) int64 {
 
 // getReducedTermsByEuclidFormula is used both in answer 4 and 5 problems solutions.
 // Replace (a,b) with (b, remainder of a/b)
-func getReducedTermsByEuclidFormula(integerA, integerB int64) (a int64, b int64) {
+func getReducedTermsByEuclidFormula(integerA, integerB Integer) (a Integer, b Integer) {
 	return integerB, integerA % integerB
 }
 
-// CalcModInvByEuclid answers Q5
+// CalcModInvByEuclid answers question 5
 // to calculate a's multiplicative inverse x mod m or 1/a mod m so that
 // a * x mod m results in 1
 // by employing Euclid's algorithm (extended or reverse direction).
@@ -150,10 +151,10 @@ func getReducedTermsByEuclidFormula(integerA, integerB int64) (a int64, b int64)
 //		= rprev - qr...
 // arriving at gcd(a,m) = xa + ym
 // Ref: https://proofwiki.org/wiki/Euclidean_Algorithm
-func CalcModInvByEuclid(a, m int64) int64 {
-	var x int64 = 1
-	var y int64 = 0
-	var quotient int64
+func CalcModInvByEuclid(a, m Integer) Integer {
+	var x Integer = 1
+	var y Integer = 0
+	var quotient Integer
 
 	modBase := m
 
@@ -174,7 +175,8 @@ func CalcModInvByEuclid(a, m int64) int64 {
 	return x
 }
 
-// ReverseRSA answers question 6: RSA Encryption and subsequent reversal
+// CheckRSA answers question 6: RSA Encryption and subsequent decryption
+// and validating that original message m is same to decrypted message m2
 // This function reuses the functions created in previous questions
 // Steps:
 // 1 Encrypt m^e mod n
@@ -183,36 +185,32 @@ func CalcModInvByEuclid(a, m int64) int64 {
 // 4 Calculates d such that d*e mod phi(n) = 1
 // 5 Decrypts c -> m2 by c^d mod n
 // 6 if m == m2 then it's a successful reversal
-func ReverseRSA(m, n, e uint64) bool {
+func CheckRSA(m, n, e Integer) bool {
 	c := getModOfPow(m, e, n)
 
 	factors := Factor(n)
 
 	phiOfN := getPhin(factors[0], factors[1])
 
-	d := CalcModInvByEuclid(int64(e), int64(phiOfN))
+	d := CalcModInvByEuclid(e, phiOfN)
 
-	m2 := getModOfPow(c, uint64(d), n)
+	m2 := getModOfPow(c, d, n)
 
-	if m == m2 {
-		return true
-	}
-
-	return false
+	return m == m2
 }
 
 // getPhi calculates the Euler totient value for n
-func getPhin(p, q uint64) uint64 {
+func getPhin(p, q Integer) Integer {
 	return (p - 1) * (q - 1)
 }
 
 // getModOfPow encrypts or decrypts a value for the RSA algorithm using a simple
 // linear complexity Oexp modular exponeniation algorithm such that
 // i^exp mod n => ((r1=1^i mod n) * (r2=r1^i mod n)* ... * (rexp^i mod n)) mod n
-// if posInteger is a message m and pow is e then it returns c mod n the encrypted message per RSA
-// if posInteger is an encrypted message c and pow is d then it returns m mod n the decrypted message per RSA
-func getModOfPow(integer, exponent, n uint64) uint64 {
-	var res uint64 = 1
+// if integer is a message m and pow is e then it returns c mod n the encrypted message per RSA
+// if integer is an encrypted message c and pow is d then it returns m mod n the decrypted message per RSA
+func getModOfPow(integer, exponent, n Integer) Integer {
+	var res Integer = 1
 	for i := res; i <= exponent; i++ {
 		res = (res * integer) % n
 	}

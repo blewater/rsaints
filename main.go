@@ -1,5 +1,10 @@
 package main
 
+/*
+ * April 20 2020
+ * Mario Karagiorgas U184N0286
+ */
+
 import (
 	"fmt"
 	"log"
@@ -17,7 +22,7 @@ func assertBool(funcName string, res, expected bool) {
 
 }
 
-func assertEqInt64(funcName string, res, expected int64) {
+func assertEqInt64(funcName string, res, expected lib.Integer) {
 
 	if res != expected {
 		log.Fatalf("%s resulted in %d, expected %d\n", funcName, res, expected)
@@ -63,7 +68,7 @@ func main() {
 	assertEqFactors("Factor",
 		lib.Factor(23), lib.Factors{23})
 	assertEqFactors("Factor",
-		lib.Factor(26), lib.Factors{23})
+		lib.Factor(26), lib.Factors{2, 13})
 	assertEqFactors("Factor",
 		lib.Factor(81), lib.Factors{3, 3, 3, 3})
 	assertEqFactors("Factor",
@@ -100,17 +105,17 @@ func main() {
 		583739113)
 
 	// Q6 Tests
-	assertBool("Reverse RSA Encryption",
-		lib.ReverseRSA(654321, 937513, 638471), true)
+	assertBool("Validate RSA Encryption and Decryption",
+		lib.CheckRSA(654321, 937513, 638471), true)
 
-	assertBool("Reverse RSA Encryption",
-		lib.ReverseRSA(10000, 937513, 638471), true)
+	assertBool("Validate RSA Encryption and Decryption",
+		lib.CheckRSA(10000, 937513, 638471), true)
 
-	assertBool("Reverse RSA Encryption",
-		lib.ReverseRSA(937512, 937513, 638471), true)
+	assertBool("Validate RSA Encryption and Decryption",
+		lib.CheckRSA(937512, 937513, 638471), true)
 
-	assertBool("Reverse RSA Encryption",
-		lib.ReverseRSA(1, 937513, 638471), true)
+	assertBool("Validate RSA Encryption and Decryption",
+		lib.CheckRSA(1, 937513, 638471), true)
 
 	fmt.Println("Successful completion of all tests.")
 }
