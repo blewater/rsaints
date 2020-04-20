@@ -63,6 +63,8 @@ func main() {
 	assertEqFactors("Factor",
 		lib.Factor(23), lib.Factors{23})
 	assertEqFactors("Factor",
+		lib.Factor(26), lib.Factors{23})
+	assertEqFactors("Factor",
 		lib.Factor(81), lib.Factors{3, 3, 3, 3})
 	assertEqFactors("Factor",
 		lib.Factor(150), lib.Factors{2, 3, 5, 5})
@@ -94,11 +96,21 @@ func main() {
 		7)
 
 	assertEqInt64("Mod Mult Inverse",
-		lib.CalcModInvByEuclid(15, 26),
-		7)
-
-	assertEqInt64("Mod Mult Inverse",
 		lib.CalcModInvByEuclid(342952340, 4230493243),
 		583739113)
 
+	// Q6 Tests
+	assertBool("Reverse RSA Encryption",
+		lib.ReverseRSA(654321, 937513, 638471), true)
+
+	assertBool("Reverse RSA Encryption",
+		lib.ReverseRSA(10000, 937513, 638471), true)
+
+	assertBool("Reverse RSA Encryption",
+		lib.ReverseRSA(937512, 937513, 638471), true)
+
+	assertBool("Reverse RSA Encryption",
+		lib.ReverseRSA(1, 937513, 638471), true)
+
+	fmt.Println("Successful completion of all tests.")
 }
