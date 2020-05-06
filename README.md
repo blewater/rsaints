@@ -1,2 +1,1 @@
-# comp530
-Assignment 1
+# RSA math primitives
