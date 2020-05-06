@@ -1,8 +1,8 @@
 package main
 
 /*
- * April 20 2020
- * Mario Karagiorgas U184N0286
+ * Quick validation
+ * 
  */
 
 import (
@@ -40,15 +40,6 @@ func assertEqFactors(funcName string, res, expected lib.Factors) {
 
 func main() {
 
-	// Q1 Tests
-	assertBool("IsPrimeTrialByError",
-		lib.IsPrimeTrialByError(5), true)
-	assertBool("IsPrimeTrialByError",
-		lib.IsPrimeTrialByError(23), true)
-	assertBool("IsPrimeTrialByError",
-		lib.IsPrimeTrialByError(81), false)
-
-	// Q2 Tests
 	assertBool("IsPrimeOptimized",
 		lib.IsPrimeOptimized(5), true)
 	assertBool("IsPrimeOptimized",
@@ -64,7 +55,6 @@ func main() {
 	fmt.Printf("large prime number check took %v\n", time.Since(start))
 	assertBool("IsPrimeOptimized", res, true)
 
-	// Q3 Tests
 	assertEqFactors("Factor",
 		lib.Factor(23), lib.Factors{23})
 	assertEqFactors("Factor",
@@ -86,7 +76,6 @@ func main() {
 	assertEqFactors("Factor", lib.Factor(9576890767),
 		lib.Factors{9576890767})
 
-	// Q4 Tests
 	assertEqInt64("Euclid",
 		lib.CalcEuclid(499017086208, 676126714752),
 		93312)
@@ -95,7 +84,6 @@ func main() {
 		lib.CalcEuclid(5988737349, 578354589),
 		9)
 
-	// Q5 Tests
 	assertEqInt64("Mod Mult Inverse",
 		lib.CalcModInvByEuclid(15, 26),
 		7)
@@ -104,7 +92,6 @@ func main() {
 		lib.CalcModInvByEuclid(342952340, 4230493243),
 		583739113)
 
-	// Q6 Tests
 	assertBool("Validate RSA Encryption and Decryption",
 		lib.CheckRSA(654321, 937513, 638471), true)
 

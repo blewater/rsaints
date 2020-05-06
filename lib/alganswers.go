@@ -7,33 +7,8 @@ import (
 // Integer is an alias for signed int64
 type Integer int64
 
-// IsPrimeTrialByError answers question 1
-// Loop through all in range 3..n-1 and check mod == 0
-func IsPrimeTrialByError(integerN Integer) bool {
-
-	// candidate prime integers are greater than 1
-	if integerN <= 1 {
-		return false
-	}
-
-	if integerN == 2 {
-		return true
-	}
-
-	var u Integer
-	for u = 3; u < integerN; u++ {
-		if integerN%u == 0 {
-			// found divider other 1,2 or self
-			return false
-		}
-	}
-
-	return true
-}
-
-// IsPrimeOptimized answers question 2
-// Check mod 2 once to eliminate even iterations as they are multiples of 2.
-// loop up to √n testing odd numbers as n = a * b requires that at least one of a, b is ≤ √n
+// IsPrimeOptimized checks mod 2 once to eliminate even iterations as they are multiples of 2.
+// Loop up to √n testing odd numbers as n = a * b requires that at least one of a, b is ≤ √n
 // (if they divide the number we found an odd factor and the number is composite)
 func IsPrimeOptimized(integerN Integer) bool {
 
@@ -70,9 +45,7 @@ func IsPrimeOptimized(integerN Integer) bool {
 // Factors is an alias for an unsigned slice
 type Factors []Integer
 
-// Factor answers question 3
-// By employing optimizations of q2 answer: IsPrimeOptimized
-// Reduce by 2 factors
+// Factor reduces by 2 factors.
 // Factor up to square root by testing candidate even factors (if they do they are prime)
 func Factor(integerN Integer) Factors {
 	// 4 is initial capacity, it can grow dynamically
@@ -111,8 +84,7 @@ func Factor(integerN Integer) Factors {
 	return factors
 }
 
-// CalcEuclid answers question 4
-// of computing GCD(A,B) by employing the Euclid's algorithm.
+// CalcEuclid computes GCD(A,B) by employing the Euclid's algorithm.
 // Euclid's algorithm performs successive a,b substitutions such a <- b, b <- a divModulo b
 // till we reduce remainder to 0.
 // The algorithm applies substitutions because GCD(a,b) is equivalent as GCD(b, remainder of a/b)
@@ -127,14 +99,12 @@ func CalcEuclid(integerA, integerB Integer) Integer {
 	return integerA
 }
 
-// getReducedTermsByEuclidFormula is used both in answer 4 and 5 problems solutions.
-// Replace (a,b) with (b, remainder of a/b)
+// getReducedTermsByEuclidFormula replaces (a,b) with (b, remainder of a/b)
 func getReducedTermsByEuclidFormula(integerA, integerB Integer) (a Integer, b Integer) {
 	return integerB, integerA % integerB
 }
 
-// CalcModInvByEuclid answers question 5
-// to calculate a's multiplicative inverse x mod m or 1/a mod m so that
+// CalcModInvByEuclid to calculate a's multiplicative inverse x mod m or 1/a mod m so that
 // a * x mod m results in 1
 // by employing Euclid's algorithm (extended or reverse direction).
 // To answer x, we solve
@@ -175,9 +145,8 @@ func CalcModInvByEuclid(a, m Integer) Integer {
 	return x
 }
 
-// CheckRSA answers question 6: RSA Encryption and subsequent decryption
+// CheckRSA applies RSA Encryption and subsequent decryption
 // and validating that original message m is same to decrypted message m2
-// This function reuses the functions created in previous questions
 // Steps:
 // 1 Encrypt m^e mod n
 // 2 Performs prime factorization of n.
