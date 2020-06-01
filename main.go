@@ -11,7 +11,7 @@ import (
 	"reflect"
 	"time"
 
-	"github.com/comp530/lib"
+	"github.com/blewater/rsaints/lib"
 )
 
 func assertBool(funcName string, res, expected bool) {
